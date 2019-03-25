@@ -32,7 +32,7 @@ client.on('message', async msg => { // eslint-disable-line
 	let command = msg.content.toLowerCase().split(" ")[0];
 	command = command.slice(PREFIX.length)
 
-	if (command === `play`) {
+	if (command === `!play`) {
 		const voiceChannel = msg.member.voiceChannel;
 		if (!voiceChannel) return msg.channel.send('أنا آسف ولكن عليك أن تكون في قناة صوتية لتشغيل القران!');
 		const permissions = voiceChannel.permissionsFor(msg.client.user);
@@ -87,30 +87,30 @@ ${videos.map(video2 => `[**${++index} **] \`${video2.title}\``).join('\n')}`)
 			}
 			return handleVideo(video, msg, voiceChannel);
 		}
-	} else if (command === `skip`) {
+	} else if (command === `!skip`) {
 		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
 		if (!serverQueue) return msg.channel.send('There is nothing playing that I could skip for you.');
 		serverQueue.connection.dispatcher.end('Skip command has been used!');
 		return undefined;
-	} else if (command === `stop`) {
+	} else if (command === `!stop`) {
 		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
 		if (!serverQueue) return msg.channel.send('There is nothing playing that I could stop for you.');
 		serverQueue.songs = [];
 		serverQueue.connection.dispatcher.end('Stop command has been used!');
 		return undefined;
-	} else if (command === `vol`) {
+	} else if (command === `!vol`) {
 		if (!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
 		if (!serverQueue) return msg.channel.send('There is nothing playing.');
 		if (!args[1]) return msg.channel.send(`:loud_sound: Current volume is **${serverQueue.volume}**`);
 		serverQueue.volume = args[1];
 		serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 5);
 		return msg.channel.send(`:speaker: تم تغير الصوت الي **${args[1]}**`);
-	} else if (command === `np`) {
+	} else if (command === `!np`) {
 		if (!serverQueue) return msg.channel.send('لا يوجد شيء حالي ف العمل.');
 		const embedNP = new Discord.RichEmbed()
 	.setDescription(`:notes: الان يتم تشغيل: **${serverQueue.songs[0].title}**`)
 		return msg.channel.sendEmbed(embedNP);
-	} else if (command === `queue`) {
+	} else if (command === `!queue`) {
 		
 		if (!serverQueue) return msg.channel.send('There is nothing playing.');
 		let index = 0;
@@ -119,14 +119,14 @@ ${videos.map(video2 => `[**${++index} **] \`${video2.title}\``).join('\n')}`)
 ${serverQueue.songs.map(song => `**${++index} -** ${song.title}`).join('\n')}
 **الان يتم تشغيل** ${serverQueue.songs[0].title}`)
 		return msg.channel.sendEmbed(embedqu);
-	} else if (command === `pause`) {
+	} else if (command === `!pause`) {
 		if (serverQueue && serverQueue.playing) {
 			serverQueue.playing = false;
 			serverQueue.connection.dispatcher.pause();
 			return msg.channel.send('تم إيقاف القران مؤقتا!');
 		}
 		return msg.channel.send('There is nothing playing.');
-	} else if (command === "resume") {
+	} else if (command === "!resume") {
 		if (serverQueue && !serverQueue.playing) {
 			serverQueue.playing = true;
 			serverQueue.connection.dispatcher.resume();
@@ -202,20 +202,9 @@ function play(guild, song) {
 	serverQueue.textChannel.send(`بدء تشغيل: **${song.title}**`);
 }
 
-
-client.on('guildCreate', guild => {
-  client.channels.get("446261667819421708").send(`**Woops new server ✅
-Server name: __${guild.name}__
-Server owner: __${guild.owner}__**`)
-});
-client.on("guildDelete", guild => {
- client.channels.get("446261667819421708").send(`**Rmoved From server :x:
-Server name: __${guild.name}__
-Server owner: __${guild.owner}__**`)
-});
 	    
 client.on('message', message => {
-  if(message.content === "*bot") {
+  if(message.content === "!bot") {
       const embed = new Discord.RichEmbed()
       .setColor("#00FFFF")
       .setDescription(`**Servers**🌐 **__${client.guilds.size}__**
@@ -260,7 +249,7 @@ var adkar = [
 ];
 client.on('message', message => {
   if (message.author.bot) return;
-  if (message.content.startsWith('*اذكار')) {
+  if (message.content.startsWith('!اذكار')) {
     if(!message.channel.guild) return;
   var client= new Discord.RichEmbed()
   .setTitle("اذكار")
@@ -275,7 +264,7 @@ client.on('message', message => {
 
 
 client.on('message' , message => { 
-    var prefix = "**-";
+    var prefix = "!";
      if (message.content === prefix + "servers") {
 
 if(!message.channel.guild) return;
@@ -289,23 +278,23 @@ if(!message.channel.guild) return;
 });
 
 client.on('message', message => {
-        if (message.content === "*inv") {
+        if (message.content === "!inv") {
             if(!message.channel.guild) return;
         let embed = new Discord.RichEmbed()
         .setAuthor(` ${message.author.username} `, message.author.avatarURL)      
         .setTitle(`اضغط هنا `)
         .setURL(`https://discordapp.com/oauth2/authorize?client_id=440816418381103105&permissions=8&scope=bot`)
-        .setThumbnail(" https://cdn.discordapp.com/avatars/377904849783750667/6c76e412f18c142dfd711d05fb363869.png?size=2048")        
+        .setThumbnail(" https://discordapp.com/api/oauth2/authorize?client_id=519415370050699265&permissions=8&scope=bot")        
      message.channel.sendEmbed(embed);
        }
    });
 
 client.on('message', message => {
-     if (message.content === "*support") {
+     if (message.content === "!support") {
      let embed = new Discord.RichEmbed()
   .setAuthor(message.author.username)
   .setColor("#9B59B6")
-  .addField(" ** :gear: Server Support :gear: **" , "  **https://discord.gg/3WYTPsq**")
+  .addField(" ** :gear: Server Support :gear: **" , "  **https://discord.gg/MxzAfn**")
      
      
   message.channel.sendEmbed(embed);
@@ -313,7 +302,7 @@ client.on('message', message => {
 });
 
 client.on('message', message => {
-    if (message.content === '*help') {
+    if (message.content === '!help') {
    var embed = new Discord.RichEmbed()
         .setTitle('تم ارسال جميع الاوامر على الخاص ,, :e_mail: ')
         .setColor('RED')
@@ -321,26 +310,35 @@ client.on('message', message => {
     }
 });
 
-client.on('ready', function(){	
-    var ms = 40000 ;	
-    var setGame = ['*help','*inv'];	
-    var i = -1;	
-    var j = 0;	
-    setInterval(function (){	
-        if( i == -1 ){	
-j = 1;	
-       }	
-        if( i == (setGame.length)-1 ){	
-            j = -1;	
-      }	
-       i = i+j;	
-        client.user.setGame(setGame[i],`http://www.youtube.com/gg`);	
-}, ms);	
-	
+client.on('message', message => {
+  if (!message.content.startsWith(prefix)) return;
+  var args = message.content.split(' ').slice(1);
+  var argresult = args.join(' ');
+  if (message.author.id !== '436918120184021012') return;
+
+if (message.content.startsWith(prefix + 'p')) {
+  client.user.setGame(argresult);
+    message.channel.sendMessage(`**:white_check_mark:  : ${argresult}**`)
+} else 
+
+if (message.content.startsWith(prefix + 'w')) {
+client.user.setActivity(argresult, {type:'WATCHING'});
+    message.channel.sendMessage(`**:white_check_mark:  : ${argresult}**`)
+} else 
+if (message.content.startsWith(prefix + 'l')) {
+client.user.setActivity(argresult, {type:'LISTENING'});
+    message.channel.sendMessage(`**:white_check_mark: : ${argresult}**`)
+} else 
+
+if (message.content.startsWith(prefix + 's')) {
+  client.user.setGame(argresult, "https://www.twitch.tv/Justin-Ly0001");
+    message.channel.sendMessage(`**:white_check_mark:  : ${argresult}**`)
+}
+
 });
 
 client.on('message', message => {
-	var prefix ="*";
+	var prefix ="!";
 if (message.content.startsWith(prefix + 'help')) {
   var embed = new Discord.RichEmbed() 
       .setColor("#ffff00")
@@ -348,31 +346,31 @@ if (message.content.startsWith(prefix + 'help')) {
       .setDescription(`
 ● ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ ●
      🕋اوامر عامة 🕋
-*اذكار
+!اذكار
 
-*support | اذا لقيت اي غلط ادخل السيرفر لحتى نصلحو 
+!support | اذا لقيت اي غلط ادخل السيرفر لحتى نصلحو 
 
-https://discord.gg/EvwSx6p
+https://discord.gg/MxzAfn
 
 جاري اضافة بعض الاشياء
 ● ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ ● 
         **اوامر تشغيل القران**  
 
-*play <name> | لتشغيل القران
+!play <name> | لتشغيل القران
 
-*stop | لتوقيف القران وخروج البوت من الرووم 
+!stop | لتوقيف القران وخروج البوت من الرووم 
 
-*skip | لتخطي القران
+!skip | لتخطي القران
  
-*vol number | لتغيير الصوت 
+!vol number | لتغيير الصوت 
 
-*pause | ايقاف بشكل موقت
+!pause | ايقاف بشكل موقت
 
-*resume | تكميل القران 
+!resume | تكميل القران 
 
-*np | لمعرف اي سورة مشتغلة
+!np | لمعرف اي سورة مشتغلة
 
-*queue | لمعرفة السور الاخرى التي طلبتها 
+!queue | لمعرفة السور الاخرى التي طلبتها 
 
 ● ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ ●
 المرجو عدم تشغيل الموسيقى في هذا البوت
