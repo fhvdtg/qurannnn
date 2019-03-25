@@ -454,6 +454,14 @@ https://discord.gg/MxzAfn
 }
 });
 
+client.on('message', message=> {
+    if (message.author.bot) return;
+    if (message.isMentioned(client.user))
+    {
+    message.reply(`**شتبي ليش منشنتني خلني بسيرفر ورع خخخخخخخ الله يعديك**`)
+    }
+});
+
 client.on('ready', () => {
 	console.log('I am ready!'); 
   });
